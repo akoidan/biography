@@ -53,6 +53,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'akoidan_bio.request_middware.RequestMiddleware'
 )
 
 ROOT_URLCONF = 'akoidan_bio.urls'

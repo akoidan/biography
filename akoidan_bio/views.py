@@ -7,5 +7,9 @@ __author__ = 'andrew'
 
 def home(request):
     if request.method == 'GET':
-        form = UserProfileForm(UserProfile.objects.all())
+        # TODO remove hardcoded id
+        form = UserProfileForm(instance=UserProfile.objects.get(id=1))
         return render_to_response("akoidan_bio/home.html", {'form': form})
+
+
+
