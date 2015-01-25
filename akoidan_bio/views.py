@@ -15,6 +15,6 @@ def home(request):
 def requests(request):
     RequestsFormSet = modelformset_factory(Request, form=RequestsForm)
     form = RequestsFormSet(queryset=Request.objects.all().order_by('-pk')[:10])
-    return render_to_response("akoidan_bio/requests.html", {'form': form})
+    return render_to_response("akoidan_bio/requests.html", {'formset': form})
 
 

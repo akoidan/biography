@@ -18,7 +18,6 @@ class Request(Model):
     host = models.CharField(max_length=1000)
     path = models.CharField(max_length=1000)
     method = models.CharField(max_length=50)
-    uri = models.CharField(max_length=2000)
     user_agent = models.CharField(max_length=1000, blank=True, null=True)
     remote_addr = models.IPAddressField()
     # remote_addr_fwd = models.IPAddressField(blank=True, null=True)

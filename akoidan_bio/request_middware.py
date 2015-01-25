@@ -47,7 +47,6 @@ class RequestMiddleware(object):
             host=request.get_host(),
             path=request.path,
             method=request.method,
-            uri=request.build_absolute_uri(),
             user_agent=meta.pop('HTTP_USER_AGENT', None),
             remote_addr=meta.pop('REMOTE_ADDR', None),
             # remote_addr_fwd=remote_addr_fwd,
