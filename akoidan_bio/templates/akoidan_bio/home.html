@@ -1,6 +1,22 @@
 {% extends "akoidan_bio/base.html" %}
 {% block body %}
-<table>
-	{{ form.as_table }}
-</table>
+
+	<table>
+		{{ form.as_table }}
+	</table>
+
+	<form method="post">
+		<input type="text" name="login"/>
+		<input type="password" name="password"/>
+		<button type="submit">Log in</button>
+		{% csrf_token %}
+	</form>
+
+	<form method="post" action="/register">
+		<input type="text" name="username"/>
+		<input type="password" name="password"/>
+		<button type="submit">register</button>
+		{% csrf_token %}
+	</form>
+
 {% endblock body %}
