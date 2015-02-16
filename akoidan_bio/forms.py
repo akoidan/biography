@@ -20,11 +20,11 @@ class UserProfileReadOnlyForm(forms.ModelForm):
             else:
                 self.fields[f].widget.attrs['readonly'] = 'readonly'
 
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('first_name', 'last_name', 'birth_date', 'contacts', 'bio')
-
 
 
 class RequestsForm(forms.ModelForm):

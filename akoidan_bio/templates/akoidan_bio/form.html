@@ -1,7 +1,11 @@
 {% extends "akoidan_bio/base.html" %}
 {% block body %}
-
+	<form METHOD="post">
 	<table>
 		{{ form.as_table }}
 	</table>
+	{% csrf_token %}
+	<button type="submit" >SAVE ME</button>
+	<a href="/">to main page</a>
+	</form>
 {% endblock %}
