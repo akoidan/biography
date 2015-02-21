@@ -82,6 +82,10 @@ USE_I18N = True
 
 USE_L10N = True
 
+REQUESTS_COUNT = 10
+
+DEFAULT_PROFILE_ID = 1
+
 USE_TZ = True
 
 

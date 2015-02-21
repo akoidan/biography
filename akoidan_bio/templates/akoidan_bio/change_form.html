@@ -1,0 +1,8 @@
+<form METHOD="post" action="{% url 'akoidan_bio.views.change_form' %}">
+	<table>
+		{{ form.as_table }}
+	</table>
+	{% csrf_token %}
+	<button type="submit">SAVE ME</button>
+	<a href="{% url 'akoidan_bio.views.home' %}">to main page</a>
+</form>

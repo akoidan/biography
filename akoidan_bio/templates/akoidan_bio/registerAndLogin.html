@@ -1,0 +1,13 @@
+	<form method="post" action="{% url 'akoidan_bio.views.auth' %}">
+		<input type="text" name="login" />
+		<input type="password" name="password"/>
+		<button type="submit">Log in</button>
+		{% csrf_token %}
+	</form>
+
+	<form method="post" action="{% url 'akoidan_bio.views.register' %}">
+		<input type="text" name="username"/>
+		<input type="password" name="password"/>
+		<button type="submit">register</button>
+		{% csrf_token %}
+	</form>
