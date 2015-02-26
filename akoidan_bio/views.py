@@ -10,14 +10,14 @@ from akoidan_bio.forms import UserProfileReadOnlyForm, RequestsForm, UserProfile
 from akoidan_bio.models import UserProfile, Request
 from django.http import Http404
 from akoidan_bio.settings import REQUESTS_COUNT, DEFAULT_PROFILE_ID
-
+from django.contrib.auth import get_user_model
 __author__ = 'andrew'
 
 
 def create_login_out_page(request, c):
     if request.user.is_authenticated():
         page = 'akoidan_bio/logout.html'
-        c.update({'username': request.user.username})
+        c.update({'username': request.user.login})
     else:
         page = 'akoidan_bio/registerAndLogin.html'
     c.update({'log_in_out_page': page})
@@ -27,13 +27,17 @@ def create_form_page(request, c):
     if request.user.is_authenticated():
         try:
             user_profile = UserProfile.objects.get(pk=request.user.id)
-            form = UserProfileForm(request.POST, instance=user_profile)
+            form = UserProfileForm(instance=user_profile)
             # csrf is already set in nested home method
         except ObjectDoesNotExist:
             form = UserProfileForm()
         page = 'akoidan_bio/change_form.html'
     else:
-        form = UserProfileReadOnlyForm()
+        try:
+            user_profile = UserProfile.objects.get(pk=DEFAULT_PROFILE_ID)
+            form = UserProfileReadOnlyForm(instance=user_profile)
+        except UserProfile.DoesNotExist:
+            form = UserProfileReadOnlyForm()
         page = 'akoidan_bio/read_form.html'
     c.update({'form': form})
     c.update({'form_page': page})
@@ -100,7 +104,7 @@ def register(request):
         if message is False:
             message = validate_user(username)
         if message is False:
-            user = User.objects.create_user(username=username, password=password)
+            user = get_user_model().objects.create_user(username=username, password=password)
             user.save()
             authenticate(username=username, password=password)
             return HttpResponse("you successfully registered", content_type='text/plain')
@@ -118,7 +122,7 @@ def validate_user(username):
         return "Only letters, numbers, dashes or underlines"
     try:
         # theoretically can throw returning 'more than 1' error
-        User.objects.get(username=username)
+        UserProfile.objects.get(login=username)
         return 'This user name already used'
-    except User.DoesNotExist:
+    except UserProfile.DoesNotExist:
         return False

@@ -1,16 +1,33 @@
 __author__ = 'andrew'
 from django.db.models import Model
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractBaseUser, BaseUserManager, UserManager
 
 
-class UserProfile(User):
-    birth_date = models.DateField()
+class MyUserManager(BaseUserManager):
+    def create_user(self, username, password=None):
+        user = self.model(login=username)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+
+class UserProfile(AbstractBaseUser):
+    def get_short_name(self):
+        return self.name
+
+    def get_full_name(self):
+        return '%s %s' % (self.name, self.surname)
+
+    login = models.CharField(max_length=30, blank=True, unique=True)
+    name = models.CharField(max_length=30, blank=True)
+    surname = models.CharField(max_length=30, blank=True)
+    objects = MyUserManager()
+    birth_date = models.DateField(null=True, blank=True)
     contacts = models.TextField(null=True)
     bio = models.TextField(null=True)
 
-    def __str__(self):
-        return "%s's profile" % self.user
+    USERNAME_FIELD = 'login'
 
 
 class Request(Model):
@@ -27,4 +44,4 @@ class Request(Model):
     # post = models.TextField(blank=True, null=True)
     is_secure = models.NullBooleanField()
     is_ajax = models.NullBooleanField()
-    user = models.ForeignKey(User, blank=True, null=True)
+    user = models.ForeignKey(UserProfile, blank=True, null=True)

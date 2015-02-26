@@ -1,6 +1,7 @@
 import json
 from django.contrib.auth.models import User
 from akoidan_bio import models
+from akoidan_bio.models import UserProfile
 
 __author__ = 'andrew'
 
@@ -24,7 +25,7 @@ class RequestMiddleware(object):
         if request.path.endswith('/favicon.ico'):
             return request
         if hasattr(request, 'user'):
-            user = request.user if type(request.user) == User else None
+            user = request.user if type(request.user) == UserProfile else None
         else:
             user = None
 

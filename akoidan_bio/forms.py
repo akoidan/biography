@@ -3,10 +3,11 @@ from django import forms
 from akoidan_bio.models import UserProfile, Request
 from django.forms.extras.widgets import SelectDateWidget
 
+
 class UserProfileReadOnlyForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'birth_date', 'contacts', 'bio')
+        fields = ('name', 'surname', 'birth_date', 'contacts', 'bio')
 
     """Base class for making a form readonly."""
     def __init__(self, *args, **kwargs):
@@ -21,12 +22,11 @@ class UserProfileReadOnlyForm(forms.ModelForm):
                 self.fields[f].widget.attrs['readonly'] = 'readonly'
 
 
-
 class UserProfileForm(forms.ModelForm):
     birth_date = forms.DateField(widget=SelectDateWidget(years=range(1950, 2006)))
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'birth_date', 'contacts', 'bio')
+        fields = ('name', 'surname', 'birth_date', 'contacts', 'bio')
 
 
 class RequestsForm(forms.ModelForm):

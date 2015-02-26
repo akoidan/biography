@@ -60,6 +60,8 @@ ROOT_URLCONF = 'akoidan_bio.urls'
 
 WSGI_APPLICATION = 'akoidan_bio.wsgi.application'
 
+# AUTH_USER_MODEL = 'akoidan_bio.models.UserProfile'
+AUTH_USER_MODEL = 'akoidan_bio.UserProfile'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
