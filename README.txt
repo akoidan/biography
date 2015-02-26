@@ -16,3 +16,4 @@ forbiden on login page
 change_form - notify user if form has been saved
 inherit UserProfileReadOnlyForm from UserProfileForm if possible
 Add documentation
+favicon

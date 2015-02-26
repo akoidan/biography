@@ -59,16 +59,23 @@ def requests(request):
 def change_form(request):
     if request.method == 'POST' and request.user.is_authenticated():
         user_profile = UserProfile.objects.get(pk=request.user.id)
-        form = UserProfileForm(request.POST, instance=user_profile)
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
-            # TODO USER ID
+            # TODO
+            save_files(request.FILES)
             form.save()
             return HttpResponseRedirect('/')
         else:
-            return HttpResponse("sorry, form is not valid", content_type='text/plain')
-
+            return render_to_response("akoidan_bio/response.html", {'message': form.errors})
     else:
         raise PermissionDenied
+
+
+def save_files(files):
+    for filename, file in files:
+        with open(filename, 'wb+') as destination:
+            for chunk in file.chunks():
+                destination.write(chunk)
 
 
 def auth(request):
@@ -81,10 +88,10 @@ def auth(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect("form")
+            return HttpResponseRedirect("/")
         else:
             message = "Login or password is wrong"
-        return HttpResponse(message, content_type='text/plain')
+        return render_to_response("akoidan_bio/response.html", {'message': message})
     else:
         raise Http404
 
@@ -107,8 +114,8 @@ def register(request):
             user = get_user_model().objects.create_user(username=username, password=password)
             user.save()
             authenticate(username=username, password=password)
-            return HttpResponse("you successfully registered", content_type='text/plain')
-        return HttpResponse(message, content_type='text/plain')
+            message = 'you successfully registered'
+        return render_to_response("akoidan_bio/response.html", {'message': message})
     else:
         raise Http404
 
