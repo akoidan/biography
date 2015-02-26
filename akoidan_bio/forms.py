@@ -7,7 +7,7 @@ from django.forms.extras.widgets import SelectDateWidget
 class UserProfileReadOnlyForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('name', 'surname', 'birth_date', 'contacts', 'bio')
+        fields = ('name', 'surname', 'birth_date', 'contacts', 'bio', 'photo')
 
     """Base class for making a form readonly."""
     def __init__(self, *args, **kwargs):
@@ -26,7 +26,7 @@ class UserProfileForm(forms.ModelForm):
     birth_date = forms.DateField(widget=SelectDateWidget(years=range(1950, 2006)))
     class Meta:
         model = UserProfile
-        fields = ('name', 'surname', 'birth_date', 'contacts', 'bio')
+        fields = ('name', 'surname', 'birth_date', 'contacts', 'bio', 'photo')
 
 
 class RequestsForm(forms.ModelForm):

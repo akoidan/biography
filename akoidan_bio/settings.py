@@ -88,6 +88,8 @@ REQUESTS_COUNT = 10
 
 DEFAULT_PROFILE_ID = 1
 
+PHOTO_DIRECTORY = '/tmp/photos'
+
 USE_TZ = True
 
 
