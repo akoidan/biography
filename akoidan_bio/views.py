@@ -62,7 +62,7 @@ def change_form(request):
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             # TODO
-            save_files(request.FILES)
+            # save_files(request.FILES)
             form.save()
             return HttpResponseRedirect('/')
         else:
@@ -72,9 +72,9 @@ def change_form(request):
 
 
 def save_files(files):
-    for filename, file in files:
+    for filename in files:
         with open(filename, 'wb+') as destination:
-            for chunk in file.chunks():
+            for chunk in files[filename].chunks():
                 destination.write(chunk)
 
 

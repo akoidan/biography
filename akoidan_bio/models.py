@@ -1,7 +1,9 @@
+import os
+import uuid
 from akoidan_bio.settings import PHOTO_DIRECTORY
 
 __author__ = 'andrew'
-from django.db.models import Model, FileField, TextField, DateField, CharField, DateTimeField, IPAddressField, \
+from django.db.models import Model, TextField, DateField, CharField, DateTimeField, IPAddressField, \
     NullBooleanField, ForeignKey, ImageField
 from django.contrib.auth.models import User, AbstractBaseUser, BaseUserManager
 
@@ -18,6 +20,11 @@ class UserProfile(AbstractBaseUser):
     def get_short_name(self):
         return self.name
 
+    def get_file_path(instance, filename):
+        ext = filename.split('.')[-1]
+        filename = "%s.%s" % (uuid.uuid4(), ext)
+        return os.path.join(PHOTO_DIRECTORY, filename)
+
     def get_full_name(self):
         return '%s %s' % (self.name, self.surname)
 
@@ -29,6 +36,13 @@ class UserProfile(AbstractBaseUser):
     contacts = TextField(null=True)
     bio = TextField(null=True)
     photo = ImageField(upload_to=PHOTO_DIRECTORY)
+
+    def image_tag(self):
+        return u'<img src="%s" />' % self.photo.url
+
+    image_tag.short_description = 'Image'
+    image_tag.allow_tags = True
+
 
     USERNAME_FIELD = 'login'
 

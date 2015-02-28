@@ -1,3 +1,8 @@
+import os
+import uuid
+from django.forms import ImageField, DateField
+from akoidan_bio.settings import PHOTO_DIRECTORY
+
 __author__ = 'andrew'
 from django import forms
 from akoidan_bio.models import UserProfile, Request
@@ -23,10 +28,13 @@ class UserProfileReadOnlyForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
-    birth_date = forms.DateField(widget=SelectDateWidget(years=range(1950, 2006)))
+
+    birth_date = DateField(widget=SelectDateWidget(years=range(1950, 2006)))
+
     class Meta:
         model = UserProfile
-        fields = ('name', 'surname', 'birth_date', 'contacts', 'bio', 'photo')
+        fields = ('surname', 'birth_date', 'contacts', 'bio', 'photo', 'image_tag')
+        readonly_fields = ('',)
 
 
 class RequestsForm(forms.ModelForm):
