@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect
 from django.views.generic import RedirectView
 from akoidan_bio import settings
 
+PHOTO_URL='photos/'
+
 urlpatterns = patterns(
     '',
     url(r'^$', 'akoidan_bio.views.home', name='home'),

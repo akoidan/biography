@@ -1,3 +1,8 @@
 <table>
 	{{ form.as_table }}
+	{% load photo_url %}
+	<tr> <td>
+		<img src="{% photo form.instance.photo.url %}" alt="Smiley face" height="142" width="142">
+		</td>
+	</tr>
 </table>

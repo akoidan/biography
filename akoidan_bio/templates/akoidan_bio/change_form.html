@@ -1,6 +1,12 @@
 <form METHOD="post" action="{% url 'akoidan_bio.views.change_form' %}" enctype="multipart/form-data">
 	<table>
 		{{ form.as_table }}
+			{% load photo_url %}
+		<tr>
+			<td>
+				<img src="{% photo form %}" alt="Smiley face" height="142" width="142">
+			</td>
+		</tr>
 	</table>
 	{% csrf_token %}
 	<button type="submit">SAVE ME</button>

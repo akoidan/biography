@@ -1,10 +1,11 @@
+from django.core.files.storage import FileSystemStorage
+
+__author__ = 'andrew'
 import os
 import uuid
 from akoidan_bio.settings import PHOTO_DIRECTORY
-
-__author__ = 'andrew'
 from django.db.models import Model, TextField, DateField, CharField, DateTimeField, IPAddressField, \
-    NullBooleanField, ForeignKey, ImageField
+    NullBooleanField, ForeignKey, ImageField, FileField
 from django.contrib.auth.models import User, AbstractBaseUser, BaseUserManager
 
 
@@ -14,6 +15,9 @@ class MyUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+
+
+photo_storage = FileSystemStorage(location=PHOTO_DIRECTORY)
 
 
 class UserProfile(AbstractBaseUser):
@@ -35,14 +39,8 @@ class UserProfile(AbstractBaseUser):
     birth_date = DateField(null=True, blank=True)
     contacts = TextField(null=True)
     bio = TextField(null=True)
-    photo = ImageField(upload_to=PHOTO_DIRECTORY)
-
-    def image_tag(self):
-        return u'<img src="%s" />' % self.photo.url
-
-    image_tag.short_description = 'Image'
-    image_tag.allow_tags = True
-
+    # fileField + <img instead of ImageField (removes preview link)
+    photo = FileField(storage=photo_storage)
 
     USERNAME_FIELD = 'login'
 

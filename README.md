@@ -2,18 +2,18 @@
 INTRODUCTION
 ------------
 
-INSTALLING
-------------
-python manage.py migrate
+GETTING REQUIREMENT PACKAGE
+---------------------------
+pip install -r requirements.txt
 
 RUNNING
------------
+-------
 python manage.py runserver
 
 TODO
-
+----
+photo_url.py
 redirect link on register login response
-forbiden on login page
 change_form - notify user if form has been saved
 inherit UserProfileReadOnlyForm from UserProfileForm if possible
 Add documentation

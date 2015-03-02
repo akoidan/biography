@@ -12,19 +12,7 @@ from django.forms.extras.widgets import SelectDateWidget
 class UserProfileReadOnlyForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('name', 'surname', 'birth_date', 'contacts', 'bio', 'photo')
-
-    """Base class for making a form readonly."""
-    def __init__(self, *args, **kwargs):
-        from django.utils.translation import ugettext as _
-        from django.forms.widgets import Select
-        super(UserProfileReadOnlyForm, self).__init__(*args, **kwargs)
-        for f in self.fields:
-            self.fields[f].label = _(self.fields[f].label)
-            if isinstance(self.fields[f].widget, Select):
-                self.fields[f].widget.attrs['disabled'] = 'disabled'
-            else:
-                self.fields[f].widget.attrs['readonly'] = 'readonly'
+        readonly_fields = ('name', 'surname', 'birth_date', 'contacts', 'bio', 'photo')
 
 
 class UserProfileForm(forms.ModelForm):
@@ -33,7 +21,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ('surname', 'birth_date', 'contacts', 'bio', 'photo', 'image_tag')
+        fields = ('surname', 'birth_date', 'contacts', 'bio', 'photo')
         readonly_fields = ('',)
 
 
