@@ -1,4 +1,4 @@
-![python-version](https://img.shields.io/badge/python-3.4-blue.svg)
+![python](https://img.shields.io/badge/python-3.4-blue.svg)
 INTRODUCTION
 ------------
 
