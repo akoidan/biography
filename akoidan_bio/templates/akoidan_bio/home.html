@@ -1,6 +1,5 @@
 {% extends "akoidan_bio/base.html" %}
 {% block body %}
-	{% include form_page %}
-	{% include log_in_out_page %}
 	<a href="{% url 'akoidan_bio.views.requests' %}">show 10 requests</a>
+	{% include form_page %}
 {% endblock body %}

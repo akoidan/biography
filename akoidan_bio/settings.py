@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+from django.conf import global_settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from os.path import join
@@ -62,6 +63,11 @@ WSGI_APPLICATION = 'akoidan_bio.wsgi.application'
 
 # AUTH_USER_MODEL = 'akoidan_bio.models.UserProfile'
 AUTH_USER_MODEL = 'akoidan_bio.UserProfile'
+
+
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'akoidan_bio.context_processors.create_login_out_page',
+)
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases

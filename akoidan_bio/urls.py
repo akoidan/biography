@@ -1,14 +1,13 @@
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.http import HttpResponseRedirect
-from django.views.generic import RedirectView
 from akoidan_bio import settings
 
 PHOTO_URL='photos/'
 
 urlpatterns = patterns(
     '',
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'akoidan_bio.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'auth', 'akoidan_bio.views.auth'),

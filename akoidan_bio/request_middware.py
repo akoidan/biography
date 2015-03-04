@@ -1,9 +1,7 @@
+__author__ = 'andrew'
 import json
-from django.contrib.auth.models import User
 from akoidan_bio import models
 from akoidan_bio.models import UserProfile
-
-__author__ = 'andrew'
 
 
 def dumps(value):

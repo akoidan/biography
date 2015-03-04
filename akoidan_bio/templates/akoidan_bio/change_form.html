@@ -1,6 +1,9 @@
+<br>
+{% load links %}
+<a href="{{ user | render_admin_link }}">edit via admin</a>
 <form METHOD="post" action="{% url 'akoidan_bio.views.change_form' %}" enctype="multipart/form-data" aria-disabled="true">
 	{% include "akoidan_bio/read_form.html" %}
 	{% csrf_token %}
 	<button type="submit">SAVE ME</button>
-	<a href="{% url 'akoidan_bio.views.home' %}">to main page</a>
 </form>
+

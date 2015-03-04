@@ -1,6 +1,5 @@
-from django.forms import ImageField, DateField
-
 __author__ = 'andrew'
+from django.forms import ImageField, DateField
 from django import forms
 from akoidan_bio.models import UserProfile, Request
 from django.forms.extras.widgets import SelectDateWidget

@@ -8,6 +8,8 @@
 	{%  block head %} {% endblock head %}
 </head>
 <body>
+	<a href="{% url 'akoidan_bio.views.home' %}">TO MAIN</a><br>
+	{% include log_in_out_page %}
  {% block body %} {%  endblock body %}
 </body>
 </html>

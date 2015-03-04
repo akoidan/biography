@@ -1,4 +1,4 @@
-from django.core.files.storage import FileSystemStorage
+from akoidan_bio.settings import DEFAULT_PROFILE_ID
 
 __author__ = 'andrew'
 import uuid
@@ -25,6 +25,17 @@ class UserProfile(AbstractBaseUser):
 
     def get_full_name(self):
         return '%s %s' % (self.name, self.surname)
+
+    @property
+    def is_staff(self):
+        # every registered user can edit database
+        return True #self.pk == DEFAULT_PROFILE_ID
+
+    def has_perm(self, perm, obj=None):
+        return self.is_staff
+
+    def has_module_perms(self, app_label):
+        return self.is_staff
 
     login = CharField(max_length=30, blank=True, unique=True)
     name = CharField(max_length=30, blank=True)

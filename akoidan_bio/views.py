@@ -1,59 +1,29 @@
-import re
+__author__ = 'andrew'
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.core.context_processors import csrf
-from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
+from django.core.exceptions import PermissionDenied
 from django.forms import modelformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
-from akoidan_bio.forms import UserProfileReadOnlyForm, RequestsForm, UserProfileForm
+from django.template import RequestContext
+from akoidan_bio.forms import RequestsForm, UserProfileForm
 from akoidan_bio.models import UserProfile, Request
 from django.http import Http404
-from akoidan_bio.settings import REQUESTS_COUNT, DEFAULT_PROFILE_ID
+from akoidan_bio.reg_auth_utils import validate_user, create_form_page
+from akoidan_bio.settings import REQUESTS_COUNT
 from django.contrib.auth import get_user_model
-__author__ = 'andrew'
-
-
-def create_login_out_page(request, c):
-    if request.user.is_authenticated():
-        page = 'akoidan_bio/logout.html'
-        c.update({'username': request.user.login})
-    else:
-        page = 'akoidan_bio/registerAndLogin.html'
-    c.update({'log_in_out_page': page})
-
-
-def create_form_page(request, c):
-    if request.user.is_authenticated():
-        try:
-            user_profile = UserProfile.objects.get(pk=request.user.id)
-            form = UserProfileForm(instance=user_profile)
-            # csrf is already set in nested home method
-        except ObjectDoesNotExist:
-            form = UserProfileForm()
-        page = 'akoidan_bio/change_form.html'
-    else:
-        try:
-            user_profile = UserProfile.objects.get(pk=DEFAULT_PROFILE_ID)
-            form = UserProfileReadOnlyForm(instance=user_profile)
-        except UserProfile.DoesNotExist:
-            form = UserProfileReadOnlyForm()
-        page = 'akoidan_bio/read_form.html'
-    c.update({'form': form})
-    c.update({'form_page': page})
 
 
 def home(request):
     params = csrf(request)
-    create_login_out_page(request, params)
     create_form_page(request, params)
-    return render_to_response("akoidan_bio/home.html", params)
+    return render_to_response("akoidan_bio/home.html", params, context_instance=RequestContext(request))
 
 
 def requests(request):
     RequestsFormSet = modelformset_factory(Request, form=RequestsForm)
     form = RequestsFormSet(queryset=Request.objects.all().order_by('-pk')[:REQUESTS_COUNT])
-    return render_to_response("akoidan_bio/requests.html", {'formset': form})
+    return render_to_response("akoidan_bio/requests.html", {'formset': form}, context_instance=RequestContext(request))
 
 
 def change_form(request):
@@ -61,21 +31,14 @@ def change_form(request):
         user_profile = UserProfile.objects.get(pk=request.user.id)
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
-            # TODO
-            # save_files(request.FILES)
             form.save()
             return HttpResponseRedirect('/')
         else:
-            return render_to_response("akoidan_bio/response.html", {'message': form.errors})
+            return render_to_response("akoidan_bio/response.html",
+                                      {'message': form.errors},
+                                      context_instance=RequestContext(request))
     else:
         raise PermissionDenied
-
-
-def save_files(files):
-    for filename in files:
-        with open(filename, 'wb+') as destination:
-            for chunk in files[filename].chunks():
-                destination.write(chunk)
 
 
 def auth(request):
@@ -113,23 +76,9 @@ def register(request):
         if message is False:
             user = get_user_model().objects.create_user(username=username, password=password)
             user.save()
-            login(request, user)
+            authed_user = authenticate(username=username, password=password)
+            login(request, authed_user)
             message = 'you successfully registered'
-        return render_to_response("akoidan_bio/response.html", {'message': message})
+        return render_to_response("akoidan_bio/response.html", {'message': message}, context_instance=RequestContext(request))
     else:
         raise Http404
-
-
-def validate_user(username):
-    if username is None or username == '':
-        return "User name can't be empty"
-    elif len(username) > 16:
-        return "User is too long. Max 16 symbols"
-    if not re.match('^[A-Za-z0-9-_]*$', username):
-        return "Only letters, numbers, dashes or underlines"
-    try:
-        # theoretically can throw returning 'more than 1' error
-        UserProfile.objects.get(login=username)
-        return 'This user name already used'
-    except UserProfile.DoesNotExist:
-        return False
