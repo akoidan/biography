@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.views.generic import RedirectView
@@ -18,4 +19,4 @@ urlpatterns = patterns(
     url(r'^form/', 'akoidan_bio.views.change_form'),
     url(r'^register', 'akoidan_bio.views.register'),
     url(r'^logout/$', 'akoidan_bio.views.log_out'),
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

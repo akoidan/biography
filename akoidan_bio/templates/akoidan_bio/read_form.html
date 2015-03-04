@@ -1,8 +1,12 @@
-<table>
+<table aria-disabled="true">
 	{{ form.as_table }}
 	{% load photo_url %}
-	<tr> <td>
-		<img src="{% photo form.instance.photo.url %}" alt="Smiley face" height="142" width="142">
-		</td>
-	</tr>
+	{% if form.instance.photo %}
+		<tr>
+			<td><b>AVATAR:</b></td>
+			<td>
+				<img src="{{ MEDIA_URL }}{{ form.instance.photo.url}}" alt="ava" height="200" width="200">
+			</td>
+		</tr>
+	{% endif %}
 </table>

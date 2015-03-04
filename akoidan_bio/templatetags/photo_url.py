@@ -6,7 +6,7 @@ from django import template
 register = template.Library()
 
 # TODO
-@register.tag(name="photo")
-def get_photo_url(base_url, taken):
-    return PHOTO_URL + base_url
+@register.simple_tag(name="photo")
+def get_photo_url(param1):
+    return PHOTO_URL + param1[2:]
 

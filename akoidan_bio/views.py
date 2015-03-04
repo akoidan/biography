@@ -113,7 +113,7 @@ def register(request):
         if message is False:
             user = get_user_model().objects.create_user(username=username, password=password)
             user.save()
-            authenticate(username=username, password=password)
+            login(request, user)
             message = 'you successfully registered'
         return render_to_response("akoidan_bio/response.html", {'message': message})
     else:

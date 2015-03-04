@@ -88,9 +88,11 @@ REQUESTS_COUNT = 10
 
 DEFAULT_PROFILE_ID = 1
 
-PHOTO_DIRECTORY = '/tmp/photos'
-
 USE_TZ = True
+
+MEDIA_ROOT = '/tmp/photos'
+
+MEDIA_URL = "photo/"
 
 
 # Static files (CSS, JavaScript, Images)

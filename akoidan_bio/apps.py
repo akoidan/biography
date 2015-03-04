@@ -1,6 +1,4 @@
-import os
 from django.apps import AppConfig
-from akoidan_bio.settings import PHOTO_DIRECTORY
 
 
 class DefaultSettingsConfig(AppConfig):
@@ -11,5 +9,5 @@ class DefaultSettingsConfig(AppConfig):
     verbose_name = 'autobio'
 
     def ready(self):
-        if not os.path.exists(PHOTO_DIRECTORY):
-            os.mkdir(PHOTO_DIRECTORY)
+        # TODO init here
+        pass

@@ -13,9 +13,7 @@ python manage.py runserver
 TODO
 ----
 photo_url.py
-redirect link on register login response
 change_form - notify user if form has been saved
-inherit UserProfileReadOnlyForm from UserProfileForm if possible
 Add documentation
 favicon
 add file size check to upload

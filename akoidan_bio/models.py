@@ -1,9 +1,7 @@
 from django.core.files.storage import FileSystemStorage
 
 __author__ = 'andrew'
-import os
 import uuid
-from akoidan_bio.settings import PHOTO_DIRECTORY
 from django.db.models import Model, TextField, DateField, CharField, DateTimeField, IPAddressField, \
     NullBooleanField, ForeignKey, ImageField, FileField
 from django.contrib.auth.models import User, AbstractBaseUser, BaseUserManager
@@ -17,17 +15,13 @@ class MyUserManager(BaseUserManager):
         return user
 
 
-photo_storage = FileSystemStorage(location=PHOTO_DIRECTORY)
-
-
 class UserProfile(AbstractBaseUser):
     def get_short_name(self):
         return self.name
 
     def get_file_path(instance, filename):
         ext = filename.split('.')[-1]
-        filename = "%s.%s" % (uuid.uuid4(), ext)
-        return os.path.join(PHOTO_DIRECTORY, filename)
+        return "%s.%s" % (uuid.uuid4(), ext)
 
     def get_full_name(self):
         return '%s %s' % (self.name, self.surname)
@@ -40,7 +34,7 @@ class UserProfile(AbstractBaseUser):
     contacts = TextField(null=True)
     bio = TextField(null=True)
     # fileField + <img instead of ImageField (removes preview link)
-    photo = FileField(storage=photo_storage)
+    photo = FileField(upload_to=get_file_path)
 
     USERNAME_FIELD = 'login'
 
