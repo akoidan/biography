@@ -28,3 +28,5 @@ class RequestsForm(forms.ModelForm):
 
     class Meta:
         model = Request
+        # all fields by default is deprecated so using fields specifying all
+        # fields = ('time', 'host', 'path', 'method', 'user_agent', 'remote_addr', 'meta', 'is_secure', 'is_ajax', 'user')

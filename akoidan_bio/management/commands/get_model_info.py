@@ -13,6 +13,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         all_models = models.get_models(include_auto_created=True)
         for member in all_models:
-            output = '%s has %d fields' % (member.__name__, len(member._meta.fields))
+            output = '%s has %d objects' % (member.__name__, member.objects.count())
             self.stdout.write(output)
             self.stderr.write('error: %s' % output)
