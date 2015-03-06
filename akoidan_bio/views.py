@@ -17,13 +17,17 @@ from django.contrib.auth import get_user_model
 def home(request):
     params = csrf(request)
     create_form_page(request, params)
-    return render_to_response("akoidan_bio/home.html", params, context_instance=RequestContext(request))
+    return render_to_response("akoidan_bio/home.html",
+                              params,
+                              context_instance=RequestContext(request))
 
 
 def requests(request):
     RequestsFormSet = modelformset_factory(Request, form=RequestsForm)
     form = RequestsFormSet(queryset=Request.objects.all().order_by('-pk')[:REQUESTS_COUNT])
-    return render_to_response("akoidan_bio/requests.html", {'formset': form}, context_instance=RequestContext(request))
+    return render_to_response("akoidan_bio/requests.html",
+                              {'formset': form},
+                              context_instance=RequestContext(request))
 
 
 def change_form(request):
@@ -54,7 +58,9 @@ def auth(request):
             return HttpResponseRedirect("/")
         else:
             message = "Login or password is wrong"
-        return render_to_response("akoidan_bio/response.html", {'message': message})
+        return render_to_response("akoidan_bio/response.html",
+                                  {'message': message},
+                                  context_instance=RequestContext(request))
     else:
         raise Http404
 
@@ -77,8 +83,12 @@ def register(request):
             user = get_user_model().objects.create_user(username=username, password=password)
             user.save()
             authed_user = authenticate(username=username, password=password)
+            # TODO UNIQUE constraint failed: akoidan_bio_databaselog.table,
+            # akoidan_bio_databaselog.object_id, akoidan_bio_databaselog.action
             login(request, authed_user)
             message = 'you successfully registered'
-        return render_to_response("akoidan_bio/response.html", {'message': message}, context_instance=RequestContext(request))
+        return render_to_response("akoidan_bio/response.html",
+                                  {'message': message},
+                                  context_instance=RequestContext(request))
     else:
         raise Http404

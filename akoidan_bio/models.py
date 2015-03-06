@@ -1,3 +1,5 @@
+from enum import Enum
+
 __author__ = 'andrew'
 
 import uuid
@@ -77,23 +79,20 @@ class Request(Model):
     user = ForeignKey(UserProfile, blank=True, null=True)
 
 
+class Actions(Enum):
+    create = 'c'
+    update = 'u'
+    delete = 'd'
+
+    def __str__(self):
+        return self.value
+
+
 class DatabaseLog(Model):
-
-    TABLE_CHOICES = (
-        (UserProfile._meta.db_table, UserProfile.__name__),
-        (Request._meta.db_table, Request.__name__),
-    )
-
-    ACTION_CHOICES = (
-        ('d', 'delete'),
-        ('c', 'create'),
-        ('u', 'update'),
-    )
-
-    table = CharField(choices=TABLE_CHOICES, max_length=20)
+    table = CharField( max_length=20)
     time = DateTimeField(auto_now_add=True)
     object_id = PositiveIntegerField()
-    action = CharField(max_length=1, choices=ACTION_CHOICES)
+    action = CharField(max_length=1)
 
     class Meta:
         # only 1 create, 1 update and 1 delete per object
