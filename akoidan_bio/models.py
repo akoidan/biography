@@ -90,7 +90,8 @@ class Actions(Enum):
 
 class DatabaseLog(Model):
     table = CharField( max_length=20)
-    time = DateTimeField(auto_now_add=True)
+    # auto_now gets now time every time raw is UPDATED or created
+    time = DateTimeField(auto_now=True)
     object_id = PositiveIntegerField()
     action = CharField(max_length=1)
 

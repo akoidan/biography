@@ -7,7 +7,7 @@ def get_action(created):
         return Actions.delete
     elif created is True:
         return Actions.create
-    else:
+    else: # if created is False
         return Actions.update
 
 
@@ -17,8 +17,11 @@ def log(sender, instance, created=None,  *args, **kwargs):
                     True when a new raw is inserted called from post_save
                     False when a raw is updated called from post_save
     """
-    log = DatabaseLog(table=sender._meta.db_table, object_id=instance.id, action=get_action(created))
+    # get object from the database if action is update and creates it if delete or create
+    log, created = DatabaseLog.objects.get_or_create(table=sender._meta.db_table, object_id=instance.id, action=get_action(created))
+    # updates time field is object is action is update, saves it if delete or create
     log.save()
+
 
 post_save.connect(log, sender=UserProfile)
 post_save.connect(log, sender=Request)
