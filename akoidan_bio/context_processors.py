@@ -1,6 +1,9 @@
 __author__ = 'andrew'
 
 def create_login_out_page(request):
+    """
+    adds to context navbar page with login action or username
+    """
     c = {}
     if request.user.is_authenticated():
         page = 'akoidan_bio/logout.html'

@@ -13,6 +13,8 @@ def get_action(created):
 
 def log(sender, instance, created=None,  *args, **kwargs):
     """
+    A signal that called every time on CRUD operation on table.
+    Adds to DatabaseLog an entry about operation info
     :param created: None when called from post_delete (set to default)
                     True when a new raw is inserted called from post_save
                     False when a raw is updated called from post_save

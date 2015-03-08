@@ -15,6 +15,10 @@ from django.contrib.auth import get_user_model
 
 
 def home(request):
+    """
+    Displays UserProfile if user isn't logged
+    provides a way to edit if logged
+    """
     params = csrf(request)
     create_form_page(request, params)
     return render_to_response("akoidan_bio/home.html",
@@ -23,6 +27,9 @@ def home(request):
 
 
 def requests(request):
+    """
+    Shows last 10 requests page
+    """
     RequestsFormSet = modelformset_factory(Request, form=RequestsForm)
     form = RequestsFormSet(queryset=Request.objects.all().order_by('-pk')[:REQUESTS_COUNT])
     return render_to_response("akoidan_bio/requests.html",
@@ -31,6 +38,9 @@ def requests(request):
 
 
 def change_form(request):
+    """
+    Accepts a UserProfileForm and saves it if it's validate
+    """
     if request.method == 'POST' and request.user.is_authenticated():
         user_profile = UserProfile.objects.get(pk=request.user.id)
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
@@ -47,7 +57,7 @@ def change_form(request):
 
 def auth(request):
     """
-    POST only. Logs in into system.
+    Logs in into system.
     """
     if request.method == 'POST':
         username = request.POST['login']
@@ -71,6 +81,9 @@ def log_out(request):
 
 
 def register(request):
+    """
+    Accepts a Registration form and registers a new user if form is valid.
+    """
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']

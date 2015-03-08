@@ -1,2 +1,3 @@
-<a href="{% url 'akoidan_bio.views.log_out' %}">LOG out</a>
- <div>username : <b>{{ username }}</b> </div>
+<li><a href="{% url 'akoidan_bio.views.log_out' %}">logout</a></li>
+{% load links %}
+<li><a href="{{ user | render_admin_link }}">user:{{ username }}</a></li>

@@ -19,3 +19,4 @@ urlpatterns = patterns(
     url(r'^register', 'akoidan_bio.views.register'),
     url(r'^logout/$', 'akoidan_bio.views.log_out'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Adds public access to PHOTO directory

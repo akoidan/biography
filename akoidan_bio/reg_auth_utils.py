@@ -7,6 +7,10 @@ from akoidan_bio.settings import DEFAULT_PROFILE_ID
 
 
 def validate_user(username):
+    """
+    Checks if specified username is free to register
+    :return: False if user is valid, Error with specified message if not.
+    """
     if username is None or username == '':
         return "User name can't be empty"
     elif len(username) > 16:
@@ -22,6 +26,11 @@ def validate_user(username):
 
 
 def create_form_page(request, c):
+    """
+     Adds UserProfile form variable to reuqest context
+    :param c: request context
+    :return: nothing
+    """
     if request.user.is_authenticated():
         try:
             user_profile = UserProfile.objects.get(pk=request.user.id)

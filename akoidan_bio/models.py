@@ -20,6 +20,10 @@ class MyUserManager(BaseUserManager):
 
 
 class UserProfile(AbstractBaseUser):
+    """
+    Substitutes the default User model removing unused fields
+    and adding a few additional
+    """
     def get_short_name(self):
         return self.name
 
@@ -35,6 +39,7 @@ class UserProfile(AbstractBaseUser):
     def get_full_name(self):
         return '%s %s' % (self.name, self.surname)
 
+    # Next 3 methods allow every user to visit admin page
     @property
     def is_staff(self):
         # every registered user can edit database
@@ -80,6 +85,9 @@ class Request(Model):
 
 
 class Actions(Enum):
+    """
+    Database log action that happened with object
+    """
     create = 'c'
     update = 'u'
     delete = 'd'
@@ -89,6 +97,9 @@ class Actions(Enum):
 
 
 class DatabaseLog(Model):
+    """
+    A table that consist information about every CRUD operation on other tables.
+    """
     table = CharField( max_length=20)
     # auto_now gets now time every time raw is UPDATED or created
     time = DateTimeField(auto_now=True)

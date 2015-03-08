@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-{# 	{% load staticfiles %}#}
-{#	<link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">#}
+	{# 	{% load staticfiles %}#}
+	{#	<link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">#}
 	<meta charset="UTF-8">
 	<title></title>
-    {% load staticfiles %}
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-   <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+	{# jquery before bootsrap#}
+	<script src="{% static "jquery.js" %}"></script>
 	<script src="{% static "bootstrap.min.js" %}"></script>
-	{%  block head %} {% endblock head %}
+	{% block head %} {% endblock head %}
 </head>
+<header>
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+		<ul class="nav navbar-nav">
+		<li><a href="{% url 'akoidan_bio.views.home' %}">Home</a></li>
+		{% include log_in_out_page %}
+		{% block navbar %}
+		{% endblock navbar %}
+		</ul>
+	  </div>
+	</nav>
+</header>
 <body>
-	<a href="{% url 'akoidan_bio.views.home' %}">TO MAIN</a><br>
-	{% include log_in_out_page %}
- {% block body %} {%  endblock body %}
+{% block body %} {% endblock body %}
 </body>
 </html>

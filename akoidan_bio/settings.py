@@ -36,6 +36,7 @@ TEMPLATE_DIRS = (
 
 # Application definition
 
+# TODO specify pillow for images
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',

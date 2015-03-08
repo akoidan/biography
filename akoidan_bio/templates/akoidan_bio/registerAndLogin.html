@@ -1,13 +1,28 @@
+<li class="dropdown">
 	<form method="post" action="{% url 'akoidan_bio.views.auth' %}">
-		<input type="text" name="login" />
-		<input type="password" name="password"/>
-		<button type="submit">Log in</button>
-		{% csrf_token %}
+	<a href="#" class="dropdown-toggle navbar-text" data-toggle="dropdown" role="button" aria-expanded="false">Login</a>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="loginDropDown">
+				<li><input type="text" class="form-control" name="login" placeholder="login"></li>
+				<li><input type="password" class="form-control" name="password" placeholder="password"></li>
+				<li>
+					<button type="submit">Log in</button>
+				</li>
+			</ul>
+			{% csrf_token %}
 	</form>
-
+</li>
+<li class="dropdown">
 	<form method="post" action="{% url 'akoidan_bio.views.register' %}">
-		<input type="text" name="username"/>
-		<input type="password" name="password"/>
-		<button type="submit">register</button>
-		{% csrf_token %}
+		<a href="#" class="dropdown-toggle navbar-text" data-toggle="dropdown" role="button" aria-expanded="false">register</a>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="registerDropDown">
+				<li><input type="text" class="form-control" name="username" placeholder="login"></li>
+				<li><input type="password" class="form-control" name="password" placeholder="password">
+				<li>
+				<li>
+					<button type="submit">register</button>
+				<li>
+			</ul>
+			{% csrf_token %}
 	</form>
+</li>
+
