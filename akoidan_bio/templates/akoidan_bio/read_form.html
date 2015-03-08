@@ -1,5 +1,6 @@
 <table>
-	{{ form.as_table }}
+{% load crispy_forms_tags %}
+	{% crispy form  %}
 {#	if photo isn't uploaded yet #}
 	{% if form.instance.photo %}
 		<tr>

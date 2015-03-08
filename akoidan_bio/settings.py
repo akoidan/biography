@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'akoidan_bio',
+    'crispy_forms',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -54,8 +55,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'akoidan_bio.request_middware.RequestMiddleware'
+    'akoidan_bio.request_middware.RequestMiddleware',
 )
+
+CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 ROOT_URLCONF = 'akoidan_bio.urls'
 
