@@ -1,5 +1,3 @@
-import sys
-
 __author__ = 'andrew'
 from django.core.management import BaseCommand
 from django.db import models

@@ -14,7 +14,7 @@ class UserProfileForm(forms.ModelForm):
     # the widget gets rid of <a href=
     photo = ImageField(widget=forms.FileInput)
 
-    class Meta:
+    class Meta:  # pylint: disable=C1001
         model = UserProfile
         fields = ('name', 'surname', 'birth_date', 'contacts', 'bio', 'photo')
 

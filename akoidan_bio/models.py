@@ -1,11 +1,9 @@
-from enum import Enum
-
 __author__ = 'andrew'
-
+from enum import Enum
 import uuid
 from django.db.models import Model, TextField, DateField, CharField, DateTimeField, IPAddressField, \
     ForeignKey, ImageField, PositiveIntegerField
-from django.contrib.auth.models import User, AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class MyUserManager(BaseUserManager):
@@ -103,6 +101,6 @@ class DatabaseLog(Model):
     object_id = PositiveIntegerField()
     action = CharField(max_length=1)
 
-    class Meta:
+    class Meta:  # pylint: disable=C1001
         # only 1 create, 1 update and 1 delete per object
         unique_together = ('table', 'object_id', 'action')
