@@ -1,13 +1,36 @@
-<table>
-{% load crispy_forms_tags %}
-	{% crispy form  %}
-{#	if photo isn't uploaded yet #}
-	{% if form.instance.photo %}
-		<tr>
-			<td><b>AVATAR:</b></td>
-			<td>
-				<img src="{{ form.instance.photo.url}}" alt="ava" height="200" width="200">
-			</td>
-		</tr>
-	{% endif %}
-</table>
+{% extends 'akoidan_bio/base.html' %}
+{% block body %}
+	<div class="container-fluid">
+
+		<div class="row">
+			{% if profile.photo %}
+				<div class="col-md-6">
+					<img src="{{ profile.photo.url }}" alt="ava" class="img-responsive">
+				</div>
+			{% endif %}
+
+			<div class="col-md-6">
+				<div>
+					<h3>{{ profile.name }} {{ profile.surname }} </h3>
+				</div>
+				<div>
+					<table class="table">
+						<tr>
+							<td>birthday</td>
+							<td> {{ profile.birth_date }}</td>
+						</tr>
+						<tr>
+							<td>contacts</td>
+							<td> {{ profile.contacts }}</td>
+						</tr>
+						<tr>
+							<td>biography</td>
+							<td>{{ profile.bio }}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock body %}

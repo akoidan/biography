@@ -1,8 +1,15 @@
-<div class="center	">
-<form METHOD="post" action="{% url 'akoidan_bio.views.change_form' %}" enctype="multipart/form-data" aria-disabled="true">
-	{% include "akoidan_bio/read_form.html" %}
-	{% csrf_token %}
-	<button type="submit">SAVE ME</button>
-</form>
-</div>
-
+{% extends "akoidan_bio/base.html" %}
+{% block body %}
+	<div class="container-fluid">
+		{#	if photo isn't uploaded yet #}
+		{% if form.instance.photo %}
+			<div class="col-md-6">
+				<img src="{{ form.instance.photo.url }}" alt="ava" class="img-responsive">
+			</div>
+		{% endif %}
+		{% load crispy_forms_tags %}
+		<div class="col-md-6">
+			{% crispy form %}
+		</div>
+	</div>
+{% endblock body %}

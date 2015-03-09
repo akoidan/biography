@@ -1,16 +1,16 @@
 __author__ = 'andrew'
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.forms import modelformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from akoidan_bio.forms import RequestsForm, UserProfileForm
+from akoidan_bio.forms import UserProfileForm
 from akoidan_bio.models import UserProfile, Request
 from django.http import Http404
-from akoidan_bio.reg_auth_utils import validate_user, create_form_page
-from akoidan_bio.settings import REQUESTS_COUNT
+from akoidan_bio.reg_auth_utils import validate_user
+from akoidan_bio.settings import REQUESTS_COUNT, DEFAULT_PROFILE_ID
 from django.contrib.auth import get_user_model
 
 
@@ -20,20 +20,31 @@ def home(request):
     provides a way to edit if logged
     """
     params = csrf(request)
-    create_form_page(request, params)
-    return render_to_response("akoidan_bio/home.html",
-                              params,
-                              context_instance=RequestContext(request))
+    if request.user.is_authenticated():
+        try:
+            user_profile = UserProfile.objects.get(pk=request.user.id)
+            params['form'] = UserProfileForm(instance=user_profile, empty_permitted=True)
+            # csrf is already set in nested home method
+        except ObjectDoesNotExist:
+            user_profile = None
+            params['form'] = UserProfileForm(empty_permitted=True)
+        params['user'] = user_profile
+        return render_to_response('akoidan_bio/change_form.html', params, context_instance=RequestContext(request))
+    else:
+        try:
+            params['profile'] = UserProfile.objects.get(pk=DEFAULT_PROFILE_ID)
+        except UserProfile.DoesNotExist:
+            pass
+        return render_to_response('akoidan_bio/read_form.html', params, context_instance=RequestContext(request))
 
 
 def requests(request):
     """
     Shows last 10 requests page
     """
-    RequestsFormSet = modelformset_factory(Request, form=RequestsForm)
-    form = RequestsFormSet(queryset=Request.objects.all().order_by('-pk')[:REQUESTS_COUNT])
+    requests = Request.objects.all().order_by('-pk')[:REQUESTS_COUNT]
     return render_to_response("akoidan_bio/requests.html",
-                              {'formset': form},
+                              {'requests': requests},
                               context_instance=RequestContext(request))
 
 

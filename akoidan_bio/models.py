@@ -59,7 +59,7 @@ class UserProfile(AbstractBaseUser):
     objects = MyUserManager()
 
     birth_date = DateField(null=True, blank=True)
-    contacts = TextField(null=True)
+    contacts = CharField(null=True, max_length=100)
     bio = TextField(null=True)
     # fileField + <img instead of ImageField (removes preview link)
     photo = ImageField(upload_to=get_file_path)
@@ -79,8 +79,6 @@ class Request(Model):
     cookies = TextField(blank=True, null=True)
     # get = TextField(blank=True, null=True)
     # post = TextField(blank=True, null=True)
-    is_secure = NullBooleanField()
-    is_ajax = NullBooleanField()
     user = ForeignKey(UserProfile, blank=True, null=True)
 
 

@@ -1,11 +1,35 @@
 {% extends "akoidan_bio/base.html" %}
-{% block head %}
-
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'requests.css' %}">
-{% endblock head %}
-
 {% block body %}
-	{% load crispy_forms_tags %}
-{% crispy formset %}
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered">
+			<tr>
+				<th>user</th>
+				<th>time</th>
+				<th>host</th>
+				<th>path</th>
+				<th>type</th>
+				<th>user_agent</th>
+				<th>remote_addr</th>
+				<th>cookies</th>
+				<th class="hidden-md">meta</th>
+			</tr>
+			{% for request in requests %}
+				<tr>
+					<td>{{ request.user }}</td>
+					<td>{{ request.time }}</td>
+					<td>{{ request.host }}</td>
+					<td>{{ request.path }}</td>
+					<td>{{ request.method }}</td>
+					<td>{{ request.user_agent }}</td>
+					<td>{{ request.remote_addr }}</td>
+					<td>{{ request.cookies }}</td>
+					<td class="hidden-md">
+						<div style="overflow-y: scroll; height: 8em;">
+							{{ request.meta }}
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
 {% endblock body %}
