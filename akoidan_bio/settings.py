@@ -30,13 +30,11 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 TEMPLATE_DIRS = (
-    # TODO fix hardcoded dirname
     join(BASE_DIR + '/akoidan_bio/', 'templates'),
 )
 
 # Application definition
 
-# TODO specify pillow for images
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
