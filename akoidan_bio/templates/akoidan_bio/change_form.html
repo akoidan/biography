@@ -1,4 +1,17 @@
 {% extends "akoidan_bio/base.html" %}
+{% block head %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-datepicker.min.css' %}">
+	<script src="{% static 'bootstrap-datepicker.min.js' %}"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			// auto generated id by django form
+			$('#id_birth_date').datepicker({
+				format: "yyyy-mm-dd"
+			});
+		});
+	</script>
+{% endblock head %}
 {% block body %}
 	<div class="container-fluid">
 		{#	if photo isn't uploaded yet #}

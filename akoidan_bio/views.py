@@ -2,8 +2,7 @@ __author__ = 'andrew'
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
-from django.forms import modelformset_factory
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from akoidan_bio.forms import UserProfileForm
@@ -42,9 +41,9 @@ def requests(request):
     """
     Shows last 10 requests page
     """
-    requests = Request.objects.all().order_by('-pk')[:REQUESTS_COUNT]
+    last_requests = Request.objects.all().order_by('-pk')[:REQUESTS_COUNT]
     return render_to_response("akoidan_bio/requests.html",
-                              {'requests': requests},
+                              {'requests': last_requests},
                               context_instance=RequestContext(request))
 
 
@@ -107,8 +106,6 @@ def register(request):
             user = get_user_model().objects.create_user(username=username, password=password)
             user.save()
             authed_user = authenticate(username=username, password=password)
-            # TODO UNIQUE constraint failed: akoidan_bio_databaselog.table,
-            # akoidan_bio_databaselog.object_id, akoidan_bio_databaselog.action
             login(request, authed_user)
             message = 'you successfully registered'
         return render_to_response("akoidan_bio/response.html",

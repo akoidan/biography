@@ -4,7 +4,7 @@ __author__ = 'andrew'
 
 import uuid
 from django.db.models import Model, TextField, DateField, CharField, DateTimeField, IPAddressField, \
-    NullBooleanField, ForeignKey, ImageField, PositiveIntegerField
+    ForeignKey, ImageField, PositiveIntegerField
 from django.contrib.auth.models import User, AbstractBaseUser, BaseUserManager
 
 
@@ -27,9 +27,8 @@ class UserProfile(AbstractBaseUser):
     def get_short_name(self):
         return self.name
 
-    def get_file_path(instance, filename):
+    def get_file_path(self, filename):
         """
-        :param instance: an instance of the being created file
         :param filename base string for generated name
         :return: a unique string filename
         """
@@ -43,7 +42,7 @@ class UserProfile(AbstractBaseUser):
     @property
     def is_staff(self):
         # every registered user can edit database
-        return True #self.pk == DEFAULT_PROFILE_ID
+        return True  # self.pk == DEFAULT_PROFILE_ID
 
     def has_perm(self, perm, obj=None):
         return self.is_staff
@@ -98,7 +97,7 @@ class DatabaseLog(Model):
     """
     A table that consist information about every CRUD operation on other tables.
     """
-    table = CharField( max_length=20)
+    table = CharField(max_length=20)
     # auto_now gets now time every time raw is UPDATED or created
     time = DateTimeField(auto_now=True)
     object_id = PositiveIntegerField()
@@ -107,5 +106,3 @@ class DatabaseLog(Model):
     class Meta:
         # only 1 create, 1 update and 1 delete per object
         unique_together = ('table', 'object_id', 'action')
-
-

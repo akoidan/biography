@@ -1,13 +1,10 @@
-from akoidan_bio.urls import PHOTO_URL
-
 __author__ = 'andrew'
-
+from akoidan_bio.settings import HOST_ADDR
 from django import template
 register = template.Library()
 
 
 @register.filter(name="render_admin_link")
-def get_object_link(object):
+def get_object_link(model_object):
     # TODO get ip and port from request
-    return 'http://127.0.0.1:8000/admin/akoidan_bio/%s/%d' % (object.__class__.__name__.lower(), object.pk)
-
+    return '%s/admin/akoidan_bio/%s/%d' % (HOST_ADDR, object.__class__.__name__.lower(), model_object.pk)

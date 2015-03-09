@@ -100,10 +100,11 @@ DEFAULT_PROFILE_ID = 1
 
 USE_TZ = True
 
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'photos')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'photos')
 
 MEDIA_URL = "photo/"
 
+HOST_ADDR = 'http://127.0.0.1:8000'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

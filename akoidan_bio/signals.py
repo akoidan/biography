@@ -7,7 +7,7 @@ def get_action(created):
         return Actions.delete
     elif created is True:
         return Actions.create
-    else: # if created is False
+    else:  # if created is False
         return Actions.update
 
 
