@@ -3,7 +3,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from akoidan_bio import settings
 
-PHOTO_URL = 'photos/'
 
 urlpatterns = patterns(
     '',

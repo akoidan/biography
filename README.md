@@ -4,7 +4,4 @@ GETTING STARTED
 * Get python packages `pip install -r requirements.txt`
 * Download static content `sh get_content.sh`
 * Create database `python3 manage.py migrate`
-
-RUNNING
--------
-python manage.py runserver
+* Run server with `python manage.py runserver`

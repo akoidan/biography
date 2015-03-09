@@ -1,5 +1,4 @@
 __author__ = 'andrew'
-import json
 from akoidan_bio import models
 
 
