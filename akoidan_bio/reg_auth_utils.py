@@ -8,7 +8,7 @@ from akoidan_bio.models import UserProfile
 def validate_user(username):
     """
     Checks if specified username is free to register
-    :return: False if user is valid, Error with specified message if not.
+    :raises ValidationError exception if username is not valid
     """
     if username is None or username == '':
         raise ValidationError("User name can't be empty")
@@ -25,5 +25,11 @@ def validate_user(username):
 
 
 def validate_password(password):
+    """
+    Checks if password is secure
+    :raises ValidationError exception if password is not valid
+    """
     if password is None or password == '':
         raise ValidationError("password can't be empty")
+    if len(password) < 3:
+        raise ValidationError("password should be at least 3 symbols")
