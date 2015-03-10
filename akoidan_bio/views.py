@@ -1,14 +1,14 @@
 __author__ = 'andrew'
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
-from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist, ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from akoidan_bio.forms import UserProfileForm
 from akoidan_bio.models import UserProfile, Request
 from django.http import Http404
-from akoidan_bio.reg_auth_utils import validate_user
+from akoidan_bio.reg_auth_utils import validate_user, validate_password
 from akoidan_bio.settings import REQUESTS_COUNT, DEFAULT_PROFILE_ID
 from django.contrib.auth import get_user_model
 
@@ -97,17 +97,16 @@ def register(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        message = False
-        if password is None or password == '':
-            message = "Password can't be empty"
-        if message is False:
-            message = validate_user(username)
-        if message is False:
+        try:
+            validate_user(username)
+            validate_password(password)
             user = get_user_model().objects.create_user(username=username, password=password)
             user.save()
             authed_user = authenticate(username=username, password=password)
             login(request, authed_user)
             message = 'you successfully registered'
+        except ValidationError as e:
+            message = e.message
         return render_to_response("akoidan_bio/response.html",
                                   {'message': message},
                                   context_instance=RequestContext(request))
