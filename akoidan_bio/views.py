@@ -1,4 +1,5 @@
 __author__ = 'andrew'
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist, ValidationError
@@ -47,11 +48,12 @@ def requests(request):
                               context_instance=RequestContext(request))
 
 
+@login_required
 def change_form(request):
     """
     Accepts a UserProfileForm and saves it if it's validate
     """
-    if request.method == 'POST' and request.user.is_authenticated():
+    if request.method == 'POST':
         user_profile = UserProfile.objects.get(pk=request.user.id)
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
@@ -62,7 +64,7 @@ def change_form(request):
                                       {'message': form.errors},
                                       context_instance=RequestContext(request))
     else:
-        raise PermissionDenied
+        raise Http404
 
 
 def auth(request):
@@ -85,6 +87,7 @@ def auth(request):
         raise Http404
 
 
+@login_required
 def log_out(request):
     logout(request)
     return HttpResponseRedirect('/')

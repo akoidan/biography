@@ -1,28 +1,23 @@
 <li class="dropdown">
-	<form method="post" action="{% url 'akoidan_bio.views.auth' %}">
-	<a href="#" class="dropdown-toggle navbar-text" data-toggle="dropdown" role="button" aria-expanded="false">Sign in</a>
-				<ul class="dropdown-menu" role="menu" aria-labelledby="loginDropDown">
-				<li><input type="text" class="form-control" name="login" placeholder="login"></li>
-				<li><input type="password" class="form-control" name="password" placeholder="password"></li>
-				<li>
-					<button type="submit">Log in</button>
-				</li>
-			</ul>
+	<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+	<div class="dropdown-menu" style="padding: 15px">
+		<form method="post" action="{% url 'akoidan_bio.views.auth' %}" accept-charset="UTF-8">
+			<input style="margin-bottom: 15px;" type="text" placeholder="Username" name="login">
+			<input style="margin-bottom: 15px;" type="password" placeholder="Password" name="password">
+			<input class="btn btn-primary btn-block" type="submit" id="sign-in" value="Sign In">
 			{% csrf_token %}
-	</form>
+		</form>
+	</div>
 </li>
 <li class="dropdown">
-	<form method="post" action="{% url 'akoidan_bio.views.register' %}">
-		<a href="#" class="dropdown-toggle navbar-text" data-toggle="dropdown" role="button" aria-expanded="false">Sign up</a>
-			<ul class="dropdown-menu" role="menu" aria-labelledby="registerDropDown">
-				<li><input type="text" class="form-control" name="username" placeholder="login"></li>
-				<li><input type="password" class="form-control" name="password" placeholder="password">
-				<li>
-				<li>
-					<button type="submit">register</button>
-				<li>
-			</ul>
+	<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign Up <strong class="caret"></strong></a>
+	<div class="dropdown-menu" style="padding: 15px">
+		<form method="post" action="{% url 'akoidan_bio.views.register' %}" accept-charset="UTF-8">
+			<input style="margin-bottom: 15px;" type="text" placeholder="Username" name="username">
+			<input style="margin-bottom: 15px;" type="password" placeholder="Password" name="password">
+			<input class="btn btn-primary btn-block" type="submit" id="sign-in" value="Sign Up">
 			{% csrf_token %}
-	</form>
+		</form>
+	</div>
 </li>
 
